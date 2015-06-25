@@ -35,6 +35,7 @@ import struct
 import sys
 
 import rospy
+import baxter_interface
 
 from geometry_msgs.msg import (
     PoseStamped,
@@ -61,15 +62,15 @@ def ik_test(limb):
             header=hdr,
             pose=Pose(
                 position=Point(
-                    x=0.657579481614,
-                    y=0.851981417433,
-                    z=0.0388352386502,
+                    x=0.630, #0.657579481614,
+                    y=0.268, #0.851981417433,
+                    z=0.451, #0.0388352386502,
                 ),
                 orientation=Quaternion(
-                    x=-0.366894936773,
-                    y=0.885980397775,
-                    z=0.108155782462,
-                    w=0.262162481772,
+                    x=1, #-0.298, #-0.366894936773,
+                    y=0, #0.132, #0.885980397775,
+                    z=0, #0.892, #0.108155782462,
+                    w=0, #0.314, #0.262162481772,
                 ),
             ),
         ),
@@ -77,15 +78,15 @@ def ik_test(limb):
             header=hdr,
             pose=Pose(
                 position=Point(
-                    x=0.656982770038,
-                    y=-0.852598021641,
-                    z=0.0388609422173,
+                    x=0.630, #0.656982770038,
+                    y=-0.268, #-0.852598021641,
+                    z=0.451, #0.0388609422173,
                 ),
                 orientation=Quaternion(
-                    x=0.367048116303,
-                    y=0.885911751787,
-                    z=-0.108908281936,
-                    w=0.261868353356,
+                    x=1, #0.367048116303,
+                    y=0, #0.885911751787,
+                    z=0, #-0.108908281936,
+                    w=0, #0.261868353356,
                 ),
             ),
         ),
@@ -116,6 +117,13 @@ def ik_test(limb):
         print "\nIK Joint Solution:\n", limb_joints
         print "------------------"
         print "Response Message:\n", resp
+
+        limb_move = baxter_interface.Limb(limb)
+        limb_move.move_to_joint_positions(limb_joints)
+        #angles = limb_move.joint_angles()
+        #print "\nCurrent angles:\n", angles
+        #print "\nTarget angles:\n", limb_joints
+
     else:
         print("INVALID POSE - No Valid Joint Solution Found.")
 
